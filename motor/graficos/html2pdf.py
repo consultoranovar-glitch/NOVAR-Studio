@@ -12,12 +12,16 @@ Uso: python3 html2pdf.py pieza.html salida.pdf [--png] [--dpi 200]
 import argparse, glob, os, subprocess, sys
 
 def chromium():
-    for pat in ["/opt/pw-browsers/chromium-*/chrome-linux/chrome",
-                "/opt/pw-browsers/chromium_headless_shell-*/chrome-linux/headless_shell",
-                "/usr/bin/chromium", "/usr/bin/chromium-browser"]:
-        h = sorted(glob.glob(pat))
+    root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
+    pats = ["/opt/pw-browsers/chromium_headless_shell-*/chrome-linux/headless_shell",
+            "/opt/pw-browsers/chromium-*/chrome-linux/chrome",
+            os.path.join(root, ".browsers", "**", "chrome-headless-shell"),
+            os.path.join(root, ".browsers", "**", "chrome"),
+            "/usr/bin/chromium", "/usr/bin/chromium-browser"]
+    for pat in pats:
+        h = sorted(glob.glob(pat, recursive=True))
         if h: return h[-1]
-    sys.exit("No hay Chromium disponible.")
+    sys.exit("No hay Chromium disponible. Corre ./setup.sh (necesita red a remotion.media o storage.googleapis.com).")
 
 def main():
     ap = argparse.ArgumentParser()
