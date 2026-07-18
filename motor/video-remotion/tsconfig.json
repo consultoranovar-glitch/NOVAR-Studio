@@ -4,8 +4,10 @@
     "module": "ESNext",
     "jsx": "react-jsx",
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "skipLibCheck": true,
-    "strict": true
-  }
+    "strict": true,
+    "noEmit": true
+  },
+  "include": ["src"]
 }

@@ -16,5 +16,20 @@ sobre un motor común probado en producción real (programa HUELLA, 2026).
 | `referencias/` | Piezas terminadas ejemplares (la vara) |
 | `proyectos/` | Trabajo por cliente |
 
-Requisitos del entorno: Python 3 (`python-docx`, `python-pptx`), `ffmpeg`, `pdftoppm` (poppler),
-Chromium headless, Node 18+ (para Remotion), y `GEMINI_API_KEY` en el entorno.
+## Preparación del entorno (una vez por contenedor)
+
+```bash
+./setup.sh                    # instala ffmpeg, poppler, deps Python (.venv), npm y navegador de Remotion
+. .venv/bin/activate          # activar el venv en cada sesión de trabajo
+```
+
+Además, el entorno debe tener **`GEMINI_API_KEY` como secreto** (variable de entorno).
+Nunca en el repo, nunca en archivos.
+
+**Si trabajas desde Codex Cloud:** en la configuración del *environment* del repo,
+(1) define `./setup.sh` como *setup script*, y (2) agrega el secreto `GEMINI_API_KEY`.
+El acceso a GitHub (clonar/commit/push) lo administra el propio Codex con su conector —
+no se necesita `gh` ni tokens dentro del contenedor.
+
+Verificación rápida de que todo quedó operativo: correr las pruebas del final de
+`setup.sh` y un render corto (`cd motor/video-remotion && npm run render`).
