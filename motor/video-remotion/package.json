@@ -1,0 +1,17 @@
+{
+  "name": "novar-studio-video",
+  "version": "1.0.0",
+  "description": "Motor de video NOVAR Studio: piezas por código con Remotion.",
+  "scripts": {
+    "start": "remotion studio",
+    "render": "remotion render Plantilla out/plantilla.mp4"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@fontsource/barlow": "^5.2.8",
+    "@remotion/cli": "^4.0.486",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "remotion": "^4.0.486"
+  }
+}

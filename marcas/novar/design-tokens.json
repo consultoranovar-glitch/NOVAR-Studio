@@ -1,0 +1,35 @@
+{
+  "marca": "NOVAR Consultores",
+  "colores": {
+    "gold": "C9A84C",
+    "goldDark": "A07F33",
+    "ink": "1A1A1A",
+    "black": "141414",
+    "gray": "6E6E6E",
+    "navy": "0A1A66",
+    "cream": "F5EFD8",
+    "creamLight": "FBF8EE",
+    "white": "FFFFFF"
+  },
+  "tipografia": {
+    "sans": "Barlow",
+    "serifEditorial": "Georgia",
+    "pesosBarlow": [400, 500, 600, 700, 800],
+    "fuentes": "sello-novar/fuentes/"
+  },
+  "firma": {
+    "patron": "novarchile.com · [icono in dorado] novarconsultores",
+    "icono": "sello-novar/logos/linkedin-gold.svg",
+    "regla": "PROHIBIDO escribir la palabra linkedin; siempre el icono, del color del texto"
+  },
+  "logos": {
+    "dorado": "sello-novar/logos/novar-dorado.png",
+    "blanco": "sello-novar/logos/novar-blanco.png",
+    "sello": "sello-novar/logos/logo.png"
+  },
+  "audio": {
+    "bumpers": "sello-novar/bumpers/",
+    "vocesMarca": {"femenina": "Autonoe", "masculina": "Orus"},
+    "voceSelloProfundo": "Charon (SIEMPRE con direccion de energia)"
+  }
+}

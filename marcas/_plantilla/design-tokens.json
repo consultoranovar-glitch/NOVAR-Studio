@@ -1,0 +1,27 @@
+{
+  "_instrucciones": "Copia esta carpeta como marcas/<cliente>/ y completa. Todo lo que produzca el estudio para ese cliente se parametriza desde aqui — nunca colores/fuentes a mano en la pieza. Si el cliente no autoriza uso de su logo, dejar logos.cliente en null (regla por defecto).",
+  "marca": "<Nombre del cliente>",
+  "colores": {
+    "primario": "",
+    "secundario": "",
+    "acento": "",
+    "ink": "1A1A1A",
+    "gray": "6E6E6E",
+    "fondoClaro": "",
+    "fondoOscuro": ""
+  },
+  "tipografia": {
+    "sans": "",
+    "serifEditorial": "",
+    "fuentes": "marcas/<cliente>/fuentes/ (agregar .ttf si aplica)"
+  },
+  "logos": {
+    "cliente": null,
+    "notaAutorizacion": "Logo del cliente SOLO con instruccion explicita (via Pau)"
+  },
+  "reglasDeContenido": {
+    "nombresValidados": [],
+    "frasesAncla": [],
+    "prohibido": []
+  }
+}
