@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caso 1 – Objetivo Estratégico</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f4f1ec;
+    --surface: #ffffff;
+    --accent: #1a3a4a;
+    --accent2: #c8a96e;
+    --text: #1c1c1c;
+    --text-muted: #6b6b6b;
+    --correct: #1d6a4a;
+    --correct-bg: #e6f4ee;
+    --wrong: #8b2e2e;
+    --wrong-bg: #faeaea;
+    --border: #ddd8cf;
+    --drag-hover: #e8f0f5;
+    --radius: 10px;
+    --shadow: 0 2px 16px rgba(0,0,0,0.07);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 32px 16px 48px;
+  }
+
+  .caso-wrapper {
+    width: 100%;
+    max-width: 680px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: 'Sora', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    background: var(--accent);
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+  }
+
+  h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.3;
+    margin-bottom: 24px;
+  }
+
+  .contexto {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent2);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+  }
+
+  .contexto-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .contexto-row:last-child { margin-bottom: 0; }
+
+  .label {
+    font-family: 'Sora', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    min-width: 120px;
+    padding-top: 2px;
+  }
+
+  .valor {
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  .resultado-tag {
+    display: inline-block;
+    background: var(--wrong-bg);
+    color: var(--wrong);
+    font-size: 13px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .pregunta {
+    font-family: 'Sora', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+
+  /* DROP ZONE */
+  .drop-zone {
+    border: 2px dashed var(--accent2);
+    border-radius: var(--radius);
+    padding: 22px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-style: italic;
+    background: var(--surface);
+    margin-bottom: 24px;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+    cursor: default;
+    user-select: none;
+  }
+
+  .drop-zone.over {
+    background: var(--drag-hover);
+    border-color: var(--accent);
+  }
+
+  .drop-zone.filled {
+    border-style: solid;
+    border-color: var(--accent);
+    font-style: normal;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    background: #eef3f6;
+  }
+
+  /* OPTIONS */
+  .instruccion {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+    margin-bottom: 12px;
+    font-family: 'Sora', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .option {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.45;
+    cursor: grab;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    box-shadow: var(--shadow);
+    user-select: none;
+    position: relative;
+  }
+
+  .option::before {
+    content: '⠿';
+    position: absolute;
+    left: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent2);
+    font-size: 16px;
+    opacity: 0.5;
+  }
+
+  .option:hover {
+    border-color: var(--accent2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  }
+
+  .option.dragging {
+    opacity: 0.4;
+    cursor: grabbing;
+  }
+
+  .option.used {
+    opacity: 0.35;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  /* FEEDBACK */
+  .feedback {
+    border-radius: var(--radius);
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+  }
+
+  .feedback.show {
+    max-height: 200px;
+    padding: 16px 20px;
+  }
+
+  .feedback.correcto {
+    background: var(--correct-bg);
+    border: 1px solid #9fcfb9;
+    color: var(--correct);
+  }
+
+  .feedback.incorrecto {
+    background: var(--wrong-bg);
+    border: 1px solid #e8b4b4;
+    color: var(--wrong);
+  }
+
+  .feedback strong {
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* RESET */
+  .btn-reset {
+    display: none;
+    margin-top: 16px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    padding: 11px 22px;
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-reset:hover { background: #264d61; }
+
+</style>
+</head>
+<body>
+
+<div class="caso-wrapper">
+  <span class="badge">Caso 1</span>
+  <h3>¿Este objetivo realmente contribuye al foco estratégico?</h3>
+
+  <div class="contexto">
+    <div class="contexto-row">
+      <span class="label">Foco estratégico</span>
+      <span class="valor">Aumentar la retención de clientes en un 10% durante el próximo año.</span>
+    </div>
+    <div class="contexto-row">
+      <span class="label">Objetivo del área</span>
+      <span class="valor">Realizar 12 talleres de capacitación en servicio al cliente con foco en retención durante el año.</span>
+    </div>
+    <div class="contexto-row">
+      <span class="label">KPI asociado</span>
+      <span class="valor">Número de talleres realizados.</span>
+    </div>
+    <div class="contexto-row">
+      <span class="label">Resultado</span>
+      <span class="valor"><span class="resultado-tag">Se realizaron los 12 talleres, pero la retención no mejoró.</span></span>
+    </div>
+  </div>
+
+  <p class="pregunta">¿Cuál es el principal problema estratégico del objetivo?</p>
+
+  <div class="drop-zone" id="dropZone">
+    Arrastra aquí la alternativa correcta
+  </div>
+
+  <p class="instruccion">Opciones disponibles</p>
+
+  <div class="options" id="optionsContainer">
+    <div class="option" draggable="true" data-value="1">
+      El objetivo no tiene un plazo definido.
+    </div>
+    <div class="option" draggable="true" data-value="2">
+      El objetivo mide una actividad realizada y no un resultado estratégico relacionado con la retención.
+    </div>
+    <div class="option" draggable="true" data-value="3">
+      El objetivo no considera la participación de todo el equipo.
+    </div>
+    <div class="option" draggable="true" data-value="4">
+      El objetivo tiene un indicador demasiado específico.
+    </div>
+  </div>
+
+  <div class="feedback" id="feedback"></div>
+  <button class="btn-reset" id="btnReset">Intentar de nuevo</button>
+</div>
+
+<script>
+(function() {
+  const dropZone = document.getElementById('dropZone');
+  const feedback = document.getElementById('feedback');
+  const btnReset = document.getElementById('btnReset');
+  const CORRECT = '2';
+  let draggedEl = null;
+  let answered = false;
+
+  // ── DESKTOP drag events ──────────────────────────────────────────
+  document.querySelectorAll('.option').forEach(opt => {
+    opt.addEventListener('dragstart', e => {
+      if (answered) return;
+      draggedEl = opt;
+      setTimeout(() => opt.classList.add('dragging'), 0);
+      e.dataTransfer.setData('text/plain', opt.dataset.value);
+    });
+    opt.addEventListener('dragend', () => {
+      opt.classList.remove('dragging');
+    });
+  });
+
+  dropZone.addEventListener('dragover', e => {
+    e.preventDefault();
+    dropZone.classList.add('over');
+  });
+
+  dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('over');
+  });
+
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('over');
+    const value = e.dataTransfer.getData('text/plain');
+    handleAnswer(value);
+  });
+
+  // ── MOBILE touch events ──────────────────────────────────────────
+  document.querySelectorAll('.option').forEach(opt => {
+    opt.addEventListener('touchstart', onTouchStart, { passive: false });
+    opt.addEventListener('touchmove', onTouchMove, { passive: false });
+    opt.addEventListener('touchend', onTouchEnd, { passive: false });
+  });
+
+  let touchClone = null;
+  let touchSource = null;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  function onTouchStart(e) {
+    if (answered) return;
+    e.preventDefault();
+    touchSource = this;
+    const touch = e.touches[0];
+    const rect = this.getBoundingClientRect();
+    offsetX = touch.clientX - rect.left;
+    offsetY = touch.clientY - rect.top;
+
+    touchClone = this.cloneNode(true);
+    touchClone.style.cssText = `
+      position: fixed;
+      width: ${rect.width}px;
+      left: ${touch.clientX - offsetX}px;
+      top: ${touch.clientY - offsetY}px;
+      opacity: 0.85;
+      pointer-events: none;
+      z-index: 9999;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      border: 1px solid #c8a96e;
+      border-radius: 10px;
+      background: #fff;
+      padding: 14px 18px;
+      font-size: 14px;
+      line-height: 1.45;
+      font-family: 'DM Sans', sans-serif;
+    `;
+    document.body.appendChild(touchClone);
+    this.classList.add('dragging');
+  }
+
+  function onTouchMove(e) {
+    if (!touchClone) return;
+    e.preventDefault();
+    const touch = e.touches[0];
+    touchClone.style.left = (touch.clientX - offsetX) + 'px';
+    touchClone.style.top = (touch.clientY - offsetY) + 'px';
+
+    const dz = dropZone.getBoundingClientRect();
+    if (
+      touch.clientX > dz.left && touch.clientX < dz.right &&
+      touch.clientY > dz.top && touch.clientY < dz.bottom
+    ) {
+      dropZone.classList.add('over');
+    } else {
+      dropZone.classList.remove('over');
+    }
+  }
+
+  function onTouchEnd(e) {
+    if (!touchClone || !touchSource) return;
+    e.preventDefault();
+    const touch = e.changedTouches[0];
+    const dz = dropZone.getBoundingClientRect();
+
+    touchClone.remove();
+    touchClone = null;
+    touchSource.classList.remove('dragging');
+    dropZone.classList.remove('over');
+
+    if (
+      touch.clientX > dz.left && touch.clientX < dz.right &&
+      touch.clientY > dz.top && touch.clientY < dz.bottom
+    ) {
+      handleAnswer(touchSource.dataset.value);
+    }
+    touchSource = null;
+  }
+
+  // ── Lógica de respuesta ──────────────────────────────────────────
+  function handleAnswer(value) {
+    if (answered) return;
+    answered = true;
+
+    const selected = document.querySelector(`.option[data-value="${value}"]`);
+    if (selected) {
+      dropZone.textContent = selected.textContent.trim();
+      dropZone.classList.add('filled');
+      selected.classList.add('used');
+    }
+
+    if (value === CORRECT) {
+      feedback.innerHTML = '<strong>✅ Correcto</strong>El objetivo mide una actividad (talleres realizados) y no un resultado estratégico. Completar los talleres no garantiza impacto en retención: falta el vínculo causal entre la acción y el foco estratégico.';
+      feedback.className = 'feedback correcto show';
+    } else {
+      feedback.innerHTML = '<strong>❌ No es la respuesta clave</strong>Revisa la relación entre el KPI del objetivo y el foco estratégico. ¿Qué mide realmente el indicador "número de talleres"?';
+      feedback.className = 'feedback incorrecto show';
+    }
+
+    btnReset.style.display = 'inline-block';
+  }
+
+  // ── Reset ────────────────────────────────────────────────────────
+  btnReset.addEventListener('click', () => {
+    answered = false;
+    dropZone.textContent = 'Arrastra aquí la alternativa correcta';
+    dropZone.className = 'drop-zone';
+    feedback.className = 'feedback';
+    feedback.innerHTML = '';
+    btnReset.style.display = 'none';
+    document.querySelectorAll('.option').forEach(opt => {
+      opt.classList.remove('used', 'dragging');
+    });
+  });
+})();
+</script>
+</body>
+</html>

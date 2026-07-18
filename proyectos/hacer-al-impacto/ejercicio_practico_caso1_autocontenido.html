@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ejercicio práctico del hacer al impacto</title>
+<style>
+  :root{
+    --bg:#f3f4f6;
+    --bg-soft:#eceff3;
+    --panel:#ffffff;
+    --panel-soft:#f8fafc;
+    --line:#d7b94c;
+    --line-soft:#e6d28a;
+    --text:#111827;
+    --muted:#4b5563;
+    --gold:#b08d12;
+    --gold-soft:#d4af37;
+    --shadow:0 14px 34px rgba(17,24,39,.08);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    color:var(--text);
+    background:linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+  }
+  .page{max-width:1120px;margin:0 auto;padding:30px 20px 48px;}
+  .hero{
+    background:var(--panel);
+    border:1.5px solid var(--line-soft);
+    border-top:6px solid var(--line);
+    border-radius:22px;
+    padding:26px;
+    box-shadow:var(--shadow);
+    margin-bottom:18px;
+  }
+  .hero h1{margin:0 0 8px;color:var(--text);font-size:32px;line-height:1.15;}
+  .hero p{margin:0;color:var(--muted);font-size:15px;}
+  .summary{display:grid;grid-template-columns:repeat(4, minmax(0,1fr));gap:12px;margin-top:20px;}
+  .summary-card{
+    background:var(--panel-soft);
+    border:1.5px solid var(--line-soft);
+    border-top:4px solid var(--line);
+    border-radius:16px;
+    padding:14px 15px;
+  }
+  .summary-card .label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+  .summary-card .value{color:var(--gold);font-size:28px;font-weight:700;}
+  .exit-note{color:var(--muted);font-size:14px;margin:8px 2px 18px;}
+  .actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px;}
+  button{
+    border:none;border-radius:999px;padding:12px 18px;font-size:14px;
+    font-weight:700;cursor:pointer;transition:.15s ease;
+  }
+  .btn-primary{background:var(--gold-soft);color:#111827;border:1px solid #b89520;}
+  .btn-secondary{background:#ffffff;color:var(--text);border:1px solid #d1d5db;}
+  .case-card{
+    background:var(--panel);
+    border:1.5px solid #e5e7eb;
+    border-top:5px solid var(--line);
+    border-radius:22px;
+    padding:22px;
+    box-shadow:var(--shadow);
+  }
+  .case-title{margin:0 0 16px;font-size:24px;color:var(--text);}
+  .case-context{
+    background:var(--panel-soft);
+    border:1px solid #e5e7eb;
+    border-radius:16px;
+    padding:16px;
+    margin-bottom:18px;
+  }
+  .case-context p{margin:0 0 10px;color:#1f2937;}
+  .case-context p:last-child{margin-bottom:0;}
+  .case-context strong{color:var(--gold);}
+  .question-grid{display:grid;grid-template-columns:repeat(2, minmax(0,1fr));gap:16px;}
+  .question-card{background:#ffffff;border:1.5px solid #e5e7eb;border-radius:18px;padding:16px;}
+  .question-number{
+    color:var(--gold);font-size:12px;text-transform:uppercase;
+    letter-spacing:.08em;font-weight:700;margin-bottom:8px;
+  }
+  .question-text{font-size:16px;font-weight:700;min-height:56px;margin-bottom:12px;color:#111827;}
+  .drop-zone{
+    min-height:62px;border:2px dashed #d1d5db;border-radius:14px;padding:14px;margin-bottom:12px;
+    display:flex;align-items:center;justify-content:center;text-align:center;color:#6b7280;
+    background:#f9fafb;transition:.15s ease;
+  }
+  .drop-zone.drag-over{border-color:var(--gold-soft);background:#fffaf0;}
+  .drop-zone.filled{justify-content:flex-start;text-align:left;color:var(--text);}
+  .options{display:grid;gap:8px;}
+  .option{
+    background:#ffffff;border:1px solid #d1d5db;border-radius:12px;padding:11px 12px;
+    cursor:grab;color:var(--text);
+  }
+  .option:hover{border-color:var(--line);background:#fffcf4;}
+  .option.used{opacity:.45;}
+  .feedback{display:none;margin-top:10px;padding:12px;border-radius:12px;font-size:14px;}
+  .feedback.ok{display:block;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;}
+  .feedback.bad{display:block;background:#fef2f2;border:1px solid #fecaca;color:#991b1b;}
+  @media (max-width: 960px){
+    .summary,.question-grid{grid-template-columns:1fr;}
+    .question-text{min-height:auto;}
+    .hero h1{font-size:28px;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <section class="hero">
+    <h1>Ejercicio práctico del hacer al impacto</h1>
+    <p>Revisa el caso, arrastra la alternativa correcta en cada pregunta y presiona <strong>Validar</strong> cuando completes tus respuestas.</p>
+    <div class="summary">
+      <div class="summary-card"><div class="label">Preguntas totales</div><div class="value" id="metric-total">0</div></div>
+      <div class="summary-card"><div class="label">Respondidas</div><div class="value" id="metric-answered">0</div></div>
+      <div class="summary-card"><div class="label">Correctas</div><div class="value" id="metric-correct">0</div></div>
+      <div class="summary-card"><div class="label">Precisión</div><div class="value" id="metric-accuracy">0%</div></div>
+    </div>
+  </section>
+
+  <div class="exit-note">Si terminaste el caso, aprieta la X en el extremo superior derecho para salir.</div>
+
+  <div class="actions">
+    <button class="btn-primary" id="validate-all">Validar</button>
+    <button class="btn-secondary" id="reset-all">Reiniciar</button>
+  </div>
+
+  <div id="app"></div>
+</div>
+
+<script>
+  var caseData = {
+    title: "CASO 1 – ¿Este objetivo realmente contribuye al foco estratégico?",
+    context: [
+      { label: "Foco estratégico", value: "Aumentar la retención de clientes en un 10% durante el próximo año." },
+      { label: "Objetivo del área", value: "Realizar 12 talleres de capacitación en servicio al cliente con foco en retención durante el año." },
+      { label: "KPI asociado", value: "Número de talleres realizados." },
+      { label: "Resultado reportado", value: "Se realizaron los 12 talleres, pero la retención de clientes no mejoró." }
+    ],
+    questions: [
+      {
+        id: "c1q1",
+        text: "¿Cuál es el principal problema estratégico del objetivo planteado en el caso?",
+        correctId: "c1q1o2",
+        correctFeedback: "Correcto. El objetivo mide una actividad y no un resultado estratégico vinculado a la retención. En el MCV los objetivos deben describir logros que apalanquen directamente el foco estratégico.",
+        incorrectFeedback: "No es del todo correcto. Para evaluar un objetivo no basta revisar su formulación. Lo clave es analizar si describe un resultado que impacte el foco estratégico o si solo mide actividades.",
+        options: [
+          { id: "c1q1o1", text: "El objetivo no tiene un plazo definido." },
+          { id: "c1q1o2", text: "El objetivo mide una actividad realizada y no un resultado estratégico relacionado con la retención." },
+          { id: "c1q1o3", text: "El objetivo no considera participación de todo el equipo." },
+          { id: "c1q1o4", text: "El objetivo tiene un indicador demasiado específico." }
+        ]
+      },
+      {
+        id: "c1q2",
+        text: "¿Qué falacia del accountability organizacional se observa con mayor claridad en este caso?",
+        correctId: "c1q2o2",
+        correctFeedback: "Correcto. Este caso refleja la falacia de las actividades: asumir que realizar muchas acciones generará impacto estratégico.",
+        incorrectFeedback: "No es la mejor respuesta. El caso muestra muchas acciones ejecutadas, pero los indicadores estratégicos no cambian. La clave es distinguir entre actividad e impacto.",
+        options: [
+          { id: "c1q2o1", text: "Falacia del esfuerzo." },
+          { id: "c1q2o2", text: "Falacia de las actividades." },
+          { id: "c1q2o3", text: "Falacia de la satisfacción." },
+          { id: "c1q2o4", text: "Falacia del control." }
+        ]
+      },
+      {
+        id: "c1q3",
+        text: "¿Qué principio del MCV no se está cumpliendo en este objetivo?",
+        correctId: "c1q3o2",
+        correctFeedback: "Correcto. El MCV exige una relación de causalidad directa entre objetivos y foco estratégico.",
+        incorrectFeedback: "No es del todo correcto. En el MCV el criterio central es verificar si existe una conexión clara entre el objetivo y el foco estratégico.",
+        options: [
+          { id: "c1q3o1", text: "Claridad en la formulación del objetivo." },
+          { id: "c1q3o2", text: "Causalidad directa entre el objetivo del área y el foco estratégico." },
+          { id: "c1q3o3", text: "Existencia de indicadores." },
+          { id: "c1q3o4", text: "Definición de metas temporales." }
+        ]
+      },
+      {
+        id: "c1q4",
+        text: "¿Qué tipo de indicador sería más adecuado para evaluar la contribución del área al foco estratégico?",
+        correctId: "c1q4o3",
+        correctFeedback: "Correcto. Un KPI debe evidenciar directamente el logro del objetivo y su contribución al foco estratégico.",
+        incorrectFeedback: "No es la mejor alternativa. En el MCV los indicadores deben mostrar si el resultado estratégico mejora, no solo registrar actividades.",
+        options: [
+          { id: "c1q4o1", text: "Número de talleres realizados." },
+          { id: "c1q4o2", text: "Número de participantes en los talleres." },
+          { id: "c1q4o3", text: "Variación en la tasa de retención de clientes." },
+          { id: "c1q4o4", text: "Número de horas de capacitación." }
+        ]
+      },
+      {
+        id: "c1q5",
+        text: "¿Qué cambio mejoraría la conexión estratégica del objetivo del área?",
+        correctId: "c1q5o2",
+        correctFeedback: "Correcto. Un objetivo debe describir un resultado que impacte el foco estratégico y tener un KPI que evidencie ese impacto.",
+        incorrectFeedback: "No es la opción más adecuada. La mejora estratégica no consiste en aumentar actividades sino en conectar el objetivo con el foco estratégico.",
+        options: [
+          { id: "c1q5o1", text: "Aumentar la cantidad de talleres." },
+          { id: "c1q5o2", text: "Definir un objetivo vinculado a mejorar la retención del cliente con un KPI estratégico." },
+          { id: "c1q5o3", text: "Ampliar la duración de los talleres." },
+          { id: "c1q5o4", text: "Incluir más áreas en la capacitación." }
+        ]
+      }
+    ]
+  };
+
+  var state = {};
+
+  function shuffle(array) {
+    var copy = array.slice();
+    for (var i = copy.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = copy[i];
+      copy[i] = copy[j];
+      copy[j] = tmp;
+    }
+    return copy;
+  }
+
+  function initState() {
+    for (var i = 0; i < caseData.questions.length; i++) {
+      var q = caseData.questions[i];
+      state[q.id] = { selectedOptionId: null, validated: false, isCorrect: false, options: shuffle(q.options) };
+    }
+  }
+
+  function getDropText(questionId, question) {
+    var selectedId = state[questionId].selectedOptionId;
+    if (!selectedId) return "Arrastra aquí la alternativa correcta";
+    for (var i = 0; i < question.options.length; i++) {
+      if (question.options[i].id === selectedId) return question.options[i].text;
+    }
+    return "Arrastra aquí la alternativa correcta";
+  }
+
+  function getFeedbackClass(questionId) {
+    if (!state[questionId].validated) return "";
+    return state[questionId].isCorrect ? "ok" : "bad";
+  }
+
+  function getFeedbackText(questionId, question) {
+    if (!state[questionId].validated) return "";
+    return state[questionId].isCorrect ? question.correctFeedback : question.incorrectFeedback;
+  }
+
+  function buildApp() {
+    var app = document.getElementById("app");
+    var html = '';
+    html += '<section class="case-card">';
+    html += '<h2 class="case-title">' + caseData.title + '</h2>';
+    html += '<div class="case-context">';
+    for (var c = 0; c < caseData.context.length; c++) {
+      html += '<p><strong>' + caseData.context[c].label + ':</strong> ' + caseData.context[c].value + '</p>';
+    }
+    html += '</div><div class="question-grid">';
+
+    for (var i = 0; i < caseData.questions.length; i++) {
+      var question = caseData.questions[i];
+      var qState = state[question.id];
+      html += '<article class="question-card">';
+      html += '<div class="question-number">Pregunta ' + (i + 1) + '</div>';
+      html += '<div class="question-text">' + question.text + '</div>';
+      html += '<div class="drop-zone ' + (qState.selectedOptionId ? 'filled' : '') + '" data-question-id="' + question.id + '">';
+      html += getDropText(question.id, question) + '</div><div class="options">';
+      for (var j = 0; j < qState.options.length; j++) {
+        var option = qState.options[j];
+        var used = qState.selectedOptionId === option.id ? ' used' : '';
+        html += '<div class="option' + used + '" draggable="true" data-option-id="' + option.id + '" data-question-id="' + question.id + '">' + option.text + '</div>';
+      }
+      html += '</div><div class="feedback ' + getFeedbackClass(question.id) + '">' + getFeedbackText(question.id, question) + '</div>';
+      html += '</article>';
+    }
+    html += '</div></section>';
+    app.innerHTML = html;
+    bindDnD();
+    updateMetrics();
+  }
+
+  function bindDnD() {
+    var options = document.querySelectorAll(".option");
+    for (var i = 0; i < options.length; i++) {
+      options[i].addEventListener("dragstart", function(event) {
+        var payload = { optionId: this.getAttribute("data-option-id"), questionId: this.getAttribute("data-question-id") };
+        event.dataTransfer.setData("text/plain", JSON.stringify(payload));
+      });
+    }
+
+    var zones = document.querySelectorAll(".drop-zone");
+    for (var j = 0; j < zones.length; j++) {
+      zones[j].addEventListener("dragover", function(event) {
+        event.preventDefault();
+        this.classList.add("drag-over");
+      });
+      zones[j].addEventListener("dragleave", function() {
+        this.classList.remove("drag-over");
+      });
+      zones[j].addEventListener("drop", function(event) {
+        event.preventDefault();
+        this.classList.remove("drag-over");
+        var raw = event.dataTransfer.getData("text/plain");
+        if (!raw) return;
+        var payload = JSON.parse(raw);
+        if (payload.questionId !== this.getAttribute("data-question-id")) return;
+        state[payload.questionId].selectedOptionId = payload.optionId;
+        state[payload.questionId].validated = false;
+        state[payload.questionId].isCorrect = false;
+        buildApp();
+      });
+    }
+  }
+
+  function validateAll() {
+    for (var i = 0; i < caseData.questions.length; i++) {
+      var question = caseData.questions[i];
+      var selectedId = state[question.id].selectedOptionId;
+      if (!selectedId) continue;
+      state[question.id].validated = true;
+      state[question.id].isCorrect = selectedId === question.correctId;
+    }
+    buildApp();
+  }
+
+  function resetAll() {
+    initState();
+    buildApp();
+  }
+
+  function updateMetrics() {
+    var total = caseData.questions.length, answered = 0, correct = 0, validatedCount = 0;
+    for (var i = 0; i < caseData.questions.length; i++) {
+      var q = caseData.questions[i];
+      if (state[q.id].selectedOptionId) answered++;
+      if (state[q.id].validated) validatedCount++;
+      if (state[q.id].validated && state[q.id].isCorrect) correct++;
+    }
+    var accuracy = validatedCount ? Math.round((correct / validatedCount) * 100) : 0;
+    document.getElementById("metric-total").textContent = total;
+    document.getElementById("metric-answered").textContent = answered;
+    document.getElementById("metric-correct").textContent = correct;
+    document.getElementById("metric-accuracy").textContent = accuracy + "%";
+  }
+
+  document.getElementById("validate-all").addEventListener("click", validateAll);
+  document.getElementById("reset-all").addEventListener("click", resetAll);
+
+  initState();
+  buildApp();
+</script>
+</body>
+</html>
