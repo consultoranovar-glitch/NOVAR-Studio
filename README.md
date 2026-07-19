@@ -27,7 +27,10 @@ Además, el entorno debe tener **`GEMINI_API_KEY` como secreto** (variable de en
 Nunca en el repo, nunca en archivos.
 
 **Si trabajas desde Codex Cloud:** en la configuración del *environment* del repo,
-(1) define `./setup.sh` como *setup script*, y (2) agrega el secreto `GEMINI_API_KEY`.
+(1) define `./setup.sh` como *setup script*, y (2) agrega el secreto `GEMINI_API_KEY`
+(nombre EXACTO, sin espacios). Nota: los secretos de Codex solo existen durante el
+setup — `setup.sh` la persiste automáticamente en `.venv/bin/activate` (fuera de git),
+por lo que el agente la ve al activar el venv (`. .venv/bin/activate`).
 El acceso a GitHub (clonar/commit/push) lo administra el propio Codex con su conector —
 no se necesita `gh` ni tokens dentro del contenedor.
 

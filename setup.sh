@@ -32,6 +32,12 @@ python -c "import docx, pptx, lxml, requests, PIL; print('Python deps: OK')"
 if [ -z "${GEMINI_API_KEY:-}" ]; then
   echo "⚠️  FALTA GEMINI_API_KEY: agrégala como SECRETO del entorno (nunca al repo)."
 else
-  echo "GEMINI_API_KEY: presente"
+  # Los secretos de Codex Cloud solo existen en la fase de setup: persistirla
+  # (fuera de git: .venv/ está en .gitignore) para que la sesión del agente la vea
+  # al activar el venv con: . .venv/bin/activate
+  if ! grep -q "GEMINI_API_KEY" .venv/bin/activate 2>/dev/null; then
+    printf '\nexport GEMINI_API_KEY=%q\n' "$GEMINI_API_KEY" >> .venv/bin/activate
+  fi
+  echo "GEMINI_API_KEY: presente y persistida para la sesión del agente (via .venv/bin/activate)"
 fi
 echo "Listo. Recuerda activar el venv en cada sesión:  . .venv/bin/activate"
