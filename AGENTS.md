@@ -32,7 +32,7 @@ sin partir nunca de cero y sin romper las reglas de abajo.
    🚫 **PROHIBIDO escribir la palabra "linkedin"** — siempre el ícono (`sello-novar/logos/linkedin-gold.svg`).
 5. **Logos de cliente:** NO se usan salvo instrucción explícita del cliente (vía Pau).
 6. **Nunca inventar datos declarados** (cifras, nombres de indicadores, citas). Ante duda: preguntar antes de producir.
-7. **Claves de API** solo por variables de entorno (`GEMINI_API_KEY`, etc.). Jamás en el repo, ni en ejemplos.
+7. **Claves de API** solo por variables de entorno — se cargan al activar el venv (`. .venv/bin/activate`). Disponibles: `GEMINI_API_KEY` (obligatoria, TTS), `ELEVENLABS_API_KEY` y `ANTHROPIC_API_KEY` (opcionales). Jamás en el repo, ni en ejemplos, ni impresas en logs.
 8. **Verificación antes de entregar:** documentos Word → `motor/documentos/validar_ooxml.py` debe dar ✅;
    piezas visuales → extraer cuadros/páginas y MIRARLAS (QA visual), no asumir que quedaron bien.
 9. **Ortografía:** "solo" sin tilde salvo ambigüedad. Español neutro-latino cálido (ver guía de guiones para el matiz).

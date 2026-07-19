@@ -29,15 +29,24 @@ echo "── 4/4 · Verificación ──"
 ffmpeg -version | head -1
 pdftoppm -v 2>&1 | head -1
 python -c "import docx, pptx, lxml, requests, PIL; print('Python deps: OK')"
+# Los secretos de Codex Cloud solo existen en la fase de setup: persistirlos
+# (fuera de git: .venv/ está en .gitignore) para que la sesión del agente los vea
+# al activar el venv con: . .venv/bin/activate
+persist_key() {
+  local name="$1" val="${!1:-}"
+  if [ -n "$val" ]; then
+    if ! grep -q "$name" .venv/bin/activate 2>/dev/null; then
+      printf '\nexport %s=%q\n' "$name" "$val" >> .venv/bin/activate
+    fi
+    echo "$name: presente y persistida para la sesión del agente"
+  else
+    echo "$name: ausente"
+  fi
+}
+persist_key GEMINI_API_KEY        # OBLIGATORIA (TTS del motor de audio)
+persist_key ELEVENLABS_API_KEY    # opcional (voces premium; requiere api.elevenlabs.io en la red)
+persist_key ANTHROPIC_API_KEY     # opcional (llamadas a la API de Claude desde scripts)
 if [ -z "${GEMINI_API_KEY:-}" ]; then
   echo "⚠️  FALTA GEMINI_API_KEY: agrégala como SECRETO del entorno (nunca al repo)."
-else
-  # Los secretos de Codex Cloud solo existen en la fase de setup: persistirla
-  # (fuera de git: .venv/ está en .gitignore) para que la sesión del agente la vea
-  # al activar el venv con: . .venv/bin/activate
-  if ! grep -q "GEMINI_API_KEY" .venv/bin/activate 2>/dev/null; then
-    printf '\nexport GEMINI_API_KEY=%q\n' "$GEMINI_API_KEY" >> .venv/bin/activate
-  fi
-  echo "GEMINI_API_KEY: presente y persistida para la sesión del agente (via .venv/bin/activate)"
 fi
 echo "Listo. Recuerda activar el venv en cada sesión:  . .venv/bin/activate"

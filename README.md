@@ -23,8 +23,15 @@ sobre un motor común probado en producción real (programa HUELLA, 2026).
 . .venv/bin/activate          # activar el venv en cada sesión de trabajo
 ```
 
-Además, el entorno debe tener **`GEMINI_API_KEY` como secreto** (variable de entorno).
-Nunca en el repo, nunca en archivos.
+Claves de API — siempre como **secretos del entorno**, nunca en el repo:
+
+| Clave | Estado | Para qué |
+|---|---|---|
+| `GEMINI_API_KEY` | **OBLIGATORIA** | TTS del motor de audio (voces del sello) y transcripción/QA |
+| `ELEVENLABS_API_KEY` | opcional | Voces premium ElevenLabs (requiere permitir `api.elevenlabs.io` en la red del entorno) |
+| `ANTHROPIC_API_KEY` | opcional | Llamadas a la API de Claude desde scripts |
+
+`setup.sh` persiste las tres (si existen) hacia la sesión del agente vía `.venv/bin/activate`.
 
 **Si trabajas desde Codex Cloud:** en la configuración del *environment* del repo,
 (1) define `./setup.sh` como *setup script*, y (2) agrega el secreto `GEMINI_API_KEY`
