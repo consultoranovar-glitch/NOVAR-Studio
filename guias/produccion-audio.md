@@ -147,7 +147,7 @@ respiraciones ni ruido.
   ffmpeg -y -ss 8.0 -t 9.0 -i tutor_OUTRO_v2.mp3 -ac 1 -ar 24000 \
     -af "afade=t=in:st=0:d=0.4,afade=t=out:st=7.6:d=1.4" bed9.wav
   ```
-  (`tutor_OUTRO_v2.mp3` = cierre del tutor recortado, desde absoluto ~672 s hasta el final.)
+  (`tutor_OUTRO_v2.mp3` = cierre del tutor recortado. En NOVAR Studio el máster de esa cortina ya está extraído: `sello-novar/bumpers/fuente-cortina-outro.mp3` — usar ese archivo en lugar del recorte.)
 - Diagnóstico de "dónde hay música sin voz": ventanas de 0,25 s → RMS estable + **ZCR < 0,03** = instrumental; ZCR > 0,05 = voz.
 
 ---
