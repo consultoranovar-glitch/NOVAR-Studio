@@ -45,6 +45,25 @@ npx remotion render <IdComposicion> out/pieza.mp4 --log=error
 NO usarlo para personajes de serie ni diálogo sincronizado (inconsistencia entre tomas).
 Sirve para b-roll o fondos puntuales. La identidad del estudio es la animación por código.
 
+## 4b. Títere con fondo transparente (overlay)
+
+La composición del títere puede renderizarse con **canal alfa real** para superponerla
+sobre cualquier video, lámina o escena (ver `NovaritoTransparente.tsx`):
+
+```bash
+npx remotion render NovaritoTransparente out.webm --codec=vp9 --image-format=png --pixel-format=yuva420p
+```
+
+- La composición debe tener `background: 'transparent'` (ningún AbsoluteFill pintado).
+- **WebM VP9 con alfa** funciona en: editores (DaVinci/Premiere/CapCut), OBS, web y como
+  capa en otras composiciones Remotion. Para ProRes 4444 (edición pro):
+  `--codec=prores --prores-profile=4444 --pixel-format=yuva444p10le`.
+- ⚠️ **PowerPoint NO respeta el alfa en video**: para meter a Novarito en un PPT, usar el
+  modo con fondo horneado (NovaritoPiloto, fondo del color exacto de la lámina) o
+  exportar la lámina completa como video.
+- QA del alfa: extraer un cuadro con `ffmpeg -vcodec libvpx-vp9 -i out.webm -frames:v 1 f.png`
+  y verificar alfa=0 en las esquinas (PIL).
+
 ## 5. Audiogramas (reel de podcast)
 
 Onda de audio con ffmpeg `showwaves`, portada estática + `-tune stillimage` para mp4 liviano.

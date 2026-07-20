@@ -3,6 +3,7 @@ import {Composition, continueRender, delayRender} from 'remotion';
 import {Plantilla, DUR_PLANTILLA} from './Plantilla';
 import {EjemploSubtitulos, DUR_EJEMPLO_SUBTITULOS} from './EjemploSubtitulos';
 import {NovaritoPiloto, DUR_NOVARITO_PILOTO} from './NovaritoPiloto';
+import {NovaritoTransparente, DUR_NOVARITO_TRANSPARENTE} from './NovaritoTransparente';
 import './fonts';
 
 // Espera a que Barlow esté lista antes de pintar los fotogramas
@@ -30,6 +31,14 @@ export const RemotionRoot: React.FC = () => {
   return (
     <>
       {/* Vertical 9:16 para reels. Duplicar y ajustar por pieza; ver guias/produccion-video.md */}
+      <Composition
+        id="NovaritoTransparente"
+        component={NovaritoTransparente}
+        durationInFrames={DUR_NOVARITO_TRANSPARENTE}
+        fps={30}
+        width={900}
+        height={1080}
+      />
       <Composition
         id="NovaritoPiloto"
         component={NovaritoPiloto}
