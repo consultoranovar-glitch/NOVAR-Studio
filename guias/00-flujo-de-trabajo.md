@@ -55,3 +55,12 @@ Los archivos que ve el cliente llevan nombre rotulado: `(NOVAR)_<Proyecto>_<Piez
   forzados ("pa'", "po'") y neutro acartonado de doblaje. La zona correcta está al medio.
 - "solo" sin tilde salvo ambigüedad.
 - Tono editorial NOVAR: sobrio, directo, cuidado. En humor: naturalidad > sobreactuación.
+
+## 7. Semántica de color (regla de Pau, 20-jul-2026)
+
+La paleta asignada a un artefacto de aprendizaje es **EXCLUSIVA** de ese artefacto y no se
+reusa con otro significado en el mismo programa: los humanos asocian inconscientemente y
+los "semáforos" se contaminan. Cada artefacto nuevo recibe su propia familia de color
+(una rampa monocromática de una familia nueva es una solución segura y elegante).
+Esto es distinto de los colores de MARCA, que son transversales por definición.
+Antes de colorear una pieza nueva: revisar qué paletas semánticas ya existen en el proyecto.
