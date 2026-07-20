@@ -54,8 +54,14 @@ PNG transparentes, 1600px de alto, con cuerpo blanco sólido (funcionan sobre cu
 Los originales escaneados quedan con Pau; el recorte es reproducible (flood-fill de bordes +
 cierre morfológico para el cuerpo — ver historial git).
 
-## Animación — pendiente (plan validado conceptualmente)
+## Animación — ✅ VALIDADA (20-jul-2026) · los 3 modos de Novarito
 
-Gemelo vectorial por capas (cuerpo-espiral, brazos, ojos, boca ×4 estados, piernas) en
-Remotion; lip-sync por amplitud del WAV; la espiral gira cuando se emociona.
-Próximos pasos: lámina del gemelo vectorial → validación → piloto 15s → plantilla en motor.
+| Modo | Técnica | Cuándo | Referencia validada |
+|---|---|---|---|
+| **1 · Títere** | Remotion + emociones recortadas + rebote por amplitud de la voz | Presentaciones largas, locutor de láminas (barato, control total) | `motor/video-remotion/src/NovaritoPiloto.tsx` |
+| **2 · Stinger mudo** | Veo 3.1 image-to-video condicionado con arte oficial | Entradas/cortinillas de 4-8 s | `novarito-stinger-mudo-referencia.mp4` |
+| **3 · Hablado (doblaje)** | Veo con "talks to camera + frase" → se BOTA el audio de Veo → se dobla con la voz oficial | Aperturas y momentos estelares | `novarito-clip-hablado-OFICIAL.mp4` ✅ "ta bueno" (Pau) |
+
+Recetas completas: `guias/produccion-video.md` §6 (Veo: prompt, parámetros, doblaje, QA)
+y §3 (títere). Regla económica: Veo cuesta dólares por clip — con cuentagotas y ok de Pau.
+Regla de identidad: SIEMPRE condicionar con el arte oficial; la voz SIEMPRE es la oficial.
