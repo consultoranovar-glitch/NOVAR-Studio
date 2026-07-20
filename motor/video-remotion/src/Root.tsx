@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Composition, continueRender, delayRender} from 'remotion';
 import {Plantilla, DUR_PLANTILLA} from './Plantilla';
 import {EjemploSubtitulos, DUR_EJEMPLO_SUBTITULOS} from './EjemploSubtitulos';
+import {NovaritoPiloto, DUR_NOVARITO_PILOTO} from './NovaritoPiloto';
 import './fonts';
 
 // Espera a que Barlow esté lista antes de pintar los fotogramas
@@ -29,6 +30,14 @@ export const RemotionRoot: React.FC = () => {
   return (
     <>
       {/* Vertical 9:16 para reels. Duplicar y ajustar por pieza; ver guias/produccion-video.md */}
+      <Composition
+        id="NovaritoPiloto"
+        component={NovaritoPiloto}
+        durationInFrames={DUR_NOVARITO_PILOTO}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="EjemploSubtitulos"
         component={EjemploSubtitulos}
