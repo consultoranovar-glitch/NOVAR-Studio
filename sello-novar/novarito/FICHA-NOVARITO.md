@@ -36,6 +36,24 @@ Remates con chispa alegre. Muestra OFICIAL validada: `novarito-voz-OFICIAL-maque
 Zubenelgenubi, Fenrir, Laomedeia, Achird — "esa hueá nasal", cita textual de Pau).
 La ruta correcta: base grave de pecho + pitch de caricatura.
 
+## Biblioteca de emociones — ✅ arte original de Pau, recortado y listo (`emociones/`)
+
+PNG transparentes, 1600px de alto, con cuerpo blanco sólido (funcionan sobre cualquier fondo):
+
+| Archivo | Emoción | Uso típico |
+|---|---|---|
+| `novarito-feliz.png` | Feliz sereno (presenta con la mano) | Neutral hablando, bienvenidas |
+| `novarito-celebrando.png` | Risa grande + doble pulgar | Énfasis, celebración, remates |
+| `novarito-pensativo.png` | Mirada arriba + nube de pensamiento vacía | Preguntas (¡la nube admite contenido!) |
+| `novarito-pensativo-lentes.png` | Ídem con lentes en la nube | Variante "analizando" |
+| `novarito-triste.png` | Pena contenida | Errores comunes, "esto duele" |
+| `novarito-lloron.png` | Llanto abierto con lágrimas | Comedia/exageración |
+| `novarito-enojado.png` | Ceño fruncido, brazos cruzados | Lo que NO se hace |
+| `novarito-rabia.png` | Furia cómica (dientes apretados) | Anti-ejemplos, humor |
+
+Los originales escaneados quedan con Pau; el recorte es reproducible (flood-fill de bordes +
+cierre morfológico para el cuerpo — ver historial git).
+
 ## Animación — pendiente (plan validado conceptualmente)
 
 Gemelo vectorial por capas (cuerpo-espiral, brazos, ojos, boca ×4 estados, piernas) en
