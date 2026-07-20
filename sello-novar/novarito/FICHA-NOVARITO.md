@@ -4,15 +4,22 @@
 pulgares arriba y zapatillas azules (`novarito-referencia.jpg`). Se usa como presentador
 animado en presentaciones, cápsulas y piezas del LMS.
 
-## Voz — estado: ✅ PRE-APROBADA por Pau (20-jul-2026) · base válida, admite ajustes finos
+## Voz — estado: ✅ OFICIAL · VALIDADA por Pau (20-jul-2026)
 
-Receta EXACTA y reproducible:
+**Generarla SIEMPRE con `motor/audio/voz_novarito.py`** (aplica la receta completa solo):
+
+```bash
+python3 motor/audio/voz_novarito.py guion.txt salida   # -> salida.mp3
+```
+
+Receta cerrada (la que el script aplica — NO cambiar sin autorización de Pau):
 
 | Parámetro | Valor |
 |---|---|
 | Voz Gemini TTS | **Orus** (modelo `gemini-2.5-pro-preview-tts`) |
-| Post-proceso | pitch ×**1.16** + tempo compensado a ×**1.05** final |
-| Comando | `ffmpeg -i in.wav -af "asetrate=24000*1.16,aresample=24000,atempo=0.9052" out.mp3` *(0.9052 = 1.05/1.16)* |
+| Pitch | ×**1.06** (+1 semitono — personaje SIN artefacto "globo"; el ×1.16 se descartó por sonar a globo desinflándose) |
+| Tempo final | ×**1.05** (ágil validado) |
+| Comando equivalente | `ffmpeg -i in.wav -af "asetrate=24000*1.06,aresample=24000,atempo=0.990566" out.mp3` *(0.990566 = 1.05/1.06)* |
 
 **Dirección actoral (texto que precede al guion, literal):**
 > Voz de personaje animado bonachón: redonda, cálida, de pecho, CERO nasal. Habla fluida
@@ -23,7 +30,7 @@ Receta EXACTA y reproducible:
 1. **PREGUNTA** — curiosidad genuina, tono que sube, invitando de verdad a pensar.
 2. **ÉNFASIS** — golpea las palabras clave con energía, como quien subraya en el aire.
 3. **REFLEXIÓN** — baja ritmo y volumen, cercano, íntimo, casi confidencia.
-Remates con chispa alegre. Muestra validada: `novarito-voz-maqueta-registros.mp3`.
+Remates con chispa alegre. Muestra OFICIAL validada: `novarito-voz-OFICIAL-maqueta.mp3`. En el guion, los registros se marcan inline: `[PREGUNTA]` `[ÉNFASIS]` `[REFLEXIÓN]` (el generador ya instruye al modelo cómo interpretarlos).
 
 **Descartado en el casting** (no repetir): voces agudas/nasales (Puck, Sadachbia,
 Zubenelgenubi, Fenrir, Laomedeia, Achird — "esa hueá nasal", cita textual de Pau).
