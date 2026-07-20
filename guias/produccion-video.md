@@ -62,3 +62,11 @@ Receta probada (identidad preservada — a diferencia de Flow a mano alzada):
 - Parámetros: `aspectRatio 16:9 · durationSeconds 8 · resolution 720p`.
 - 💰 **Costo real por clip (dólares, no centavos): usar con cuentagotas y con ok de Pau.**
 - QA obligatorio: extraer 5 cuadros y verificar identidad (espiral blanca, nariz/manos naranjas, zapatillas) + entorno de marca + sin texto/marca de agua.
+
+**Variante HABLADA (doblaje, validada):** para que la mascota hable en el clip Veo:
+1. En el prompt, pedir que el personaje "talks enthusiastically to the camera in Spanish, saying: '<la frase>' — his mouth moves naturally while speaking". Incluir la frase real hace que el ritmo de boca calce mejor.
+2. Generar EN PARALELO la voz oficial (`motor/audio/voz_novarito.py`) con la misma frase.
+3. **Doblar**: descartar el audio inventado de Veo y montar la voz oficial:
+   `ffmpeg -i veo.mp4 -i voz.mp3 -filter_complex "[1:a]adelay=200|200,apad[a]" -map 0:v -map "[a]" -c:v copy -c:a aac -shortest out.mp4`
+   (Convención de doblaje: la boca no calza fonema a fonema y está bien — como el animé.)
+4. La voz oficial NUNCA se reemplaza por la voz que invente Veo.
