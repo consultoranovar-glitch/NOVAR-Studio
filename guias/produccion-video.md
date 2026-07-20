@@ -49,3 +49,16 @@ Sirve para b-roll o fondos puntuales. La identidad del estudio es la animación 
 
 Onda de audio con ffmpeg `showwaves`, portada estática + `-tune stillimage` para mp4 liviano.
 Mezclas: `amix=duration=longest` (NUNCA `first`: trunca la música de fondo).
+
+## 6. Stingers generativos con Veo (validado 20-jul-2026)
+
+Excepción CONTROLADA a la regla anti-video-generativo: Veo sirve para **cortinillas/entradas
+de mascota SIN diálogo** (4-8 s). Todo lo que habla sigue siendo títere Remotion.
+
+Receta probada (identidad preservada — a diferencia de Flow a mano alzada):
+- Modelo: `veo-3.1-fast-generate-preview` vía API Gemini (`predictLongRunning` + poll del operation + download del file URI con la API key).
+- **SIEMPRE image-to-video condicionado con el arte oficial** (PNG del sello sobre fondo blanco, ~1280px).
+- Prompt: describir al personaje EXPLÍCITAMENTE (cuerpo espiral blanco con trazos grises, nariz y manos naranjas, zapatillas azules, textura lápiz), la acción, y el entorno DE MARCA ("bright minimal corporate learning studio, white walls, soft light-blue accents"). Cerrar con: "CRITICAL: preserve the exact 2D hand-drawn character design… do not convert to 3D… No text, no logos, no watermark."
+- Parámetros: `aspectRatio 16:9 · durationSeconds 8 · resolution 720p`.
+- 💰 **Costo real por clip (dólares, no centavos): usar con cuentagotas y con ok de Pau.**
+- QA obligatorio: extraer 5 cuadros y verificar identidad (espiral blanca, nariz/manos naranjas, zapatillas) + entorno de marca + sin texto/marca de agua.
